@@ -1,207 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Birthday Dad</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #ffe0e9, #fff7d6);
-            background-image: url('https://i.imgur.com/9Ck0YtS.png'); /* balloon pattern */
-            background-size: cover;
-            background-attachment: fixed;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dad Birthday Album</title>
 
-        .book {
-            width: 80vw;
-            max-width: 900px;
-            height: 80vh;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-        }
+<style>
+    body {
+    margin: 0;
+    padding: 40px 0;
+    font-family: "Poppins", sans-serif;
 
-        .page {
-            width: 100%;
-            flex: 1;
-            position: absolute;
-            top: 0;
-            left: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 3vh 4vw;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 2vh;
-            overflow-y: auto;
-            transition: left 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-            padding-bottom: 120px; /* space so text never touches buttons */
-        }
+    /* background image */
+    background-image: url("balloons.png");
+    background-size: cover;        /* fills the screen */
+    background-position: center;   /* keeps it centered */
+    background-repeat: no-repeat;  /* no repeating */
+    
+    display: flex;
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-        .page.active {
-            left: 0;
-        }
 
-        .page.left {
-            left: -100%;
-        }
 
-        .controls {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px 0;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(6px);
-        }
+    .book {
+    position: relative;
+    width: 90vw;
+    max-width: 800px;
 
-        button {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 10px;
-            background: #ff6b81;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            transition: transform 0.2s ease, background 0.3s ease;
-        }
+    /* important: auto height */
+    height: auto;
+    perspective: 2000px;
+}
 
-        button:hover:not(:disabled) {
-            transform: scale(1.05);
-            background: #ff4757;
-        }
 
-        button:disabled {
-            background: #ffb3c1;
-            cursor: not-allowed;
-        }
+    .page {
+        width: 100%;
+        max-height: 90vh;        /* Never exceed screen height */
+        background: white;
+        padding: 30px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: left;
+        transition: transform 1s ease, z-index 0.1s;
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
 
-        button:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-        }
+        /* NEW: auto height based on content */
+        height: auto !important;
 
-        img {
-            width: 100%;
-            height: auto;
-            max-height: 45vh;
-            object-fit: contain;
-            border-radius: 14px;
-        }
+        /* NEW: scroll if content is long */
+        overflow-y: auto;
+    }
 
-        h2 {
-            margin: 0 0 10px 0;
-        }
+    .page img {
+        width: 100%;
+        max-height: 45vh;     /* ensures long text still fits */
+        object-fit: contain;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
 
-        p {
-            font-size: clamp(16px, 2.2vw, 20px);
-            line-height: 1.6;
-            text-align: center;
-            max-width: 90%;
-        }
-    </style>
+    .page-content {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        text-align: left;
+        color: #444;
+        white-space: pre-line;     /* keeps your paragraphs & spacing */
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        background: #ff9bb2;
+        color: white;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #ff6f91;
+    }
+</style>
 </head>
+
 <body>
-    <div class="book" id="book">
-        
-        <!-- PAGE 1 EXAMPLE -->
-        <div class="page active">
-            <img src="1.jpeg" alt="Dad Photo" />
-            <p>Chanti Bava,
-On your birthday today, I just want to tell you something simple from my heart you are my blessing.Life feels safer, lighter, and so much more meaningful because you are in it.
+
+<div class="book" id="book">
+    <!-- PAGE 1 -->
+    <div class="page">
+        <img src="1.jpeg" alt="">
+        <div class="page-content">
+Chanti Bava,
+On your birthday today, I just want to tell you something simple from my heart you are my blessing. Life feels safer, lighter, and so much more meaningful because you are in it.
 Thank you for the way you care, you listen, the way you stand by me even when I’m difficult to understand. Thank you for loving me in ways I never knew I needed.
 I’m proud of the man you are your strength, your kindness, your patience, and your beautiful heart. You deserve every happiness, every success, and every bit of love this world can give.
 Happy Birthday, Bava
-I pray this year brings you peace, joy, and everything your soul has been waiting for. I love you more than words can ever say.</p>
+I pray this year brings you peace, joy, and everything your soul has been waiting for. I love you more than words can ever say.
         </div>
+    </div>
 
-        <!-- PAGE 2 EXAMPLE -->
-        <div class="page">
-            <img src="2.jpeg" alt="Dad Photo" />
-            <p>Hey Dad, Chinnoda here.
+    <!-- PAGE 2 -->
+    <div class="page">
+        <img src="2.jpeg" alt="">
+        <div class="page-content">
+Hey Dad, Chinnoda here.
 happy 48th dadda 
 Firstly, I want to thank you for always standing like a pillar for me.
 When times were hard, you always proved that when you’re here, nothing’s going to happen to me, and I’m very grateful that God made me a part of this family so I could experience what an amazing father you are. I’m really glad that God chose me for it.
 There’s never going to be enough “thank you’s” and “I love you’s” for everything you’ve provided us, everything you’ve given us, and every tear you’ve shed for us.
 One day, I promise I’ll make all of them worth it.
- love you very, very much, Dad.                                                                                                                                                                                                                                       love,                                                                                                                                                                                                                                                                                       kinderjoy</p>
-        </div>
-
-        <!-- PAGE 3 EXAMPLE -->
-        <div class="page">
-            <img src="3.jpeg" alt="Dad Photo" />
-            <p>Happy birthday nana🤍
-Thank you for always being my inspiration and supportive always to me and giving me a wonderful life where I’ll not have any type of troubles…..
-I've always felt so lucky to have a dad like you…. U gave everything to me that I ever asked for dad and never make sad one day I’ll return everything and make ur name proud with lots of love.
-Ur the only person that I look forward every single day even tho if I don’t speak with you everyday ur the only person who’s my first priority and my everything dad ❤️
-I know it’s silly that I don’t really work hard and all but I’m working hard and trying to study and get good marks is just for you nana.. 
-Thanks for being the worlds best dad to me 
-The only thing I will ask god again is if I ever born again I’ll wish U to be my dad nana ❤️
-I’m sorry if I ever made you sad but my comeback is only for you just to make sure that if anyone speaks about you they should get scared I’ll make it like that 💪
-I love you today tommorow and forever daddy ur the only person I look into 
-
-I really love you so much and miss you dad 
-
-Once again 
-HAPPY BIRTHDAY DADDY and I LOVE YOU SOSOSOSOSOSOSOOSSOOSOSOSOSOSOSOOSSOSOSOSOOSSOOSOSOSOSOSOSOSOSO MUCH 🤍🤍🤍🤍🤍🤍🤍🤍🤍🤍🤍</p>
-        </div>
-
-        <!-- PAGE 4 EXAMPLE -->
-        <div class="page">
-            <img src="4.jpeg" alt="Dad Photo" />
-            <p>As a family, we stand where we are because of the love, strength, and guidance you’ve given us.                                                                                                                                       love,                                                                                                                                                                                                                                                                                       wife                                                                                                                                                                                                                                                                                      chinnoda                                                                                                                                                                                                                                                                            adi</p>
-        </div>
-
-        <div class="controls">
-            <button id="prevBtn">Previous</button>
-            <button id="nextBtn">Next</button>
+Love you very, very much, Dad.  
+love,  
+kinderjoy
         </div>
     </div>
 
-    <script>
-        const pages = document.querySelectorAll('.page');
-        let current = 0;
+    <!-- PAGE 3 -->
+    <div class="page">
+        <img src="3.jpeg" alt="">
+        <div class="page-content">
+Happy birthday nana 🤍  
+Thank you for always being my inspiration and supportive always to me and giving me a wonderful life where I’ll not have any type of troubles…  
+I've always felt so lucky to have a dad like you…  
+You gave everything to me that I ever asked for and never made me sad.  
+One day I’ll return everything and make your name proud with lots of love.
+You’re the only person I look forward to every single day even if I don’t speak with you… you’re my priority always ❤️
+I’m working hard only for you nana.  
+Thank you for being the world’s best dad.
+If I’m ever born again, I’ll ask God to make you my dad again ❤️
+I’m sorry if I made you sad before. My comeback is only for you.
+I love you today, tomorrow, and forever.
+Once again,  
+HAPPY BIRTHDAY DADDY ❤️  
+I LOVE YOU SOOOOO MUCH 🤍🤍🤍🤍🤍🤍🤍🤍🤍🤍🤍  
+        </div>
+    </div>
 
-        const updatePages = () => {
-            pages.forEach((page, i) => {
-                page.classList.remove('active', 'left');
-                if (i === current) page.classList.add('active');
-                if (i < current) page.classList.add('left');
-            });
+    <!-- PAGE 4 -->
+    <div class="page">
+        <img src="4.jpeg" alt="">
+        <div class="page-content">
+As a family, we stand where we are because of the love, strength, and guidance you’ve given us.
 
-            document.getElementById('prevBtn').disabled = current === 0;
-            document.getElementById('nextBtn').disabled = current === pages.length - 1;
-        };
+love,  
+wife  
+chinnoda  
+adi
+        </div>
+    </div>
 
-        document.getElementById('nextBtn').onclick = () => {
-            if (current < pages.length - 1) current++;
+    <div class="page">
+        <img src="5.jpeg" alt="">
+        <div class="page-content">హ్యాపీ బర్త్‌డే చంటి. నీకు మంచి ఆరోగ్యం, దీర్ఘాయువు, సుఖశాంతులు ఎప్పటికీ ఉండాలని దేవుణ్ణి కోరుకుంటున్నాం. నీ కుటుంబం కోసం ఎంత శ్రమ పడుతున్నావో, ఎంత ప్రేమతో జీవిస్తున్నావో చూసి మా హృదయం ఆనందంగా, గర్వంగా ఉంటుంది. నువ్వు ఎప్పుడూ మంచిదే ఆలోచిస్తావు, అందరికీ తోడు ఉంటావు — అలాంటి బిడ్డ నీవై ఉండటం మా అదృష్టం. దేవుడు నీ ప్రతి అడుగుకూ దీవెనలు ఇచ్చి, నీ ఆశలు అన్నీ నెరవేర్చాలి. ఎల్లప్పుడూ హాయిగా, సంతోషంగా, విజయవంతంగా ఉండాలి చంటి. మా ప్రేమ, మా దీవెనలు ఎల్లప్పుడూ నీతోనే ఉంటాయి.</div>
+    </div>
+
+</div>
+
+<div class="buttons">
+    <button onclick="prevPage()">Previous</button>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<script>
+    let pages = document.querySelectorAll(".page");
+    let currentPage = 0;
+
+    pages.forEach((page, i) => {
+        page.style.zIndex = pages.length - i;
+    });
+
+    function updatePages() {
+        pages.forEach((page, index) => {
+            if (index < currentPage) {
+                page.style.transform = "rotateY(-180deg)";
+                page.style.zIndex = index;
+            } else {
+                page.style.transform = "rotateY(0deg)";
+                page.style.zIndex = pages.length - index;
+            }
+        });
+    }
+
+    function nextPage() {
+        if (currentPage < pages.length) {
+            currentPage++;
             updatePages();
-        };
+        }
+    }
 
-        document.getElementById('prevBtn').onclick = () => {
-            if (current > 0) current--;
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
             updatePages();
-        };
+        }
+    }
+</script>
 
-        updatePages();
-    </script>
 </body>
 </html>
